@@ -29,11 +29,12 @@ pheno_data <- readr::read_table2(file.path(getwd(), "datasets", "ch1", "modencod
 
 # read_table2--> read whitespace-seperated columns into a tibble; this function is deprecated because we renamed it to 'read_table()' and removed the old 'read_table' function, which was too strict for most cases and was analogous to just using 'read_fwf()'. 
   
-## 2. Specify experiments of interest.
+## 2. Specify experiments of interest. Step 2 is concerned with working out which columns in 'count_matrix' we want to use. We define a variable, 'experiments_of_interest', 
+# which holds the column names we want and then use the %in% operator and which() functions to create a binary vector that matches the number of columns. 
 experiments_of_interest <- c("L1Larvae", "L2Larvae")
 columns_of_interest <- which(pheno_data[['stage']]%in%experiments_of_interest)
 
-## 3. For the grouping factor. 
+## 3. For the grouping factor. Step 3 begins with loading the 'magrittr' package to get the %>% which allows for piping.
 grouping <- pheno_data[['stage']][columns_of_interest]%>%forcats::as_factor() # %>% is the 'infix operator' defined by magrittr and heavily used by dplyr. The function
 # passes left-hand side of the operator to the first argument of the right-hand side of the operator. 
 
