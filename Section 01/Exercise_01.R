@@ -1,12 +1,12 @@
-# As there are many different tools and methods for getting alignments of reads, we will look at starting the process with two common input types. We will be using a 
-# count table, like that we would have if we were loading from a text file and we will use an ExpressionSet(eset) object, which is an object type common in Bioconductor.
-# The prepared dataset will be the 'modencodefly' data from NHGRI encyclopedia of DNA elements project for the model organism, _Drosophila melanogaster'. The dataset contains
-# 147 different samples for 'D. melanogaster', a fruit fly with approximately 110 Mbp genome, annotated with about 15,000 gene features.
+# As there are many different tools and methods for getting alignments of reads, we will look at starting the process with two common input types. We will be using a
+# count table, like that we would have if we were loading from a text file and we will use an ExpressionSet(eset) object, which is an object type common in
+# Bioconductor. The prepared dataset will be the 'modencodefly' data from NHGRI encyclopedia of DNA elements project for the model organism, '_Drosophila melanogaster_'.
+# The dataset contains 147 different samples for 'D. melanogaster', a fruit fly with approximately 110 Mbp genome, annotated with about 15,000 gene features.
 
-# edgeR ==> edgeR is a widely used and powerful package that implements negative binomial models suitable for sparse count data such as RNA-seq data in a general linear model framework, 
-which are poweful for describing and comprehending count relationships and exact tests for multi-group experiments. It uses a weighted style normalization called "TMM", 
-which is the weighted mean of log ratio between sample and control, after removal of genes with high counts and outlying log ratios. The TMM value should be close to 
-one, but can be used as a corretion factor to be applied to overall library sizes. 
+# edgeR ==> edgeR is a widely used and powerful package that implements negative binomial models suitable for sparse count data such as RNA-seq data in a general linear
+# model framework, which are poweful for describing and comprehending count relationships and exact tests for multi-group experiments. It uses a weighted style
+# normalization called "TMM", which is the weighted mean of log ratio between sample and control, after removal of genes with high counts and outlying log ratios.
+# The TMM value should be close to one, but can be used as a corretion factor to be applied to overall library sizes. 
   
 ## Estimating differential expression with edgeR
 
