@@ -1,6 +1,6 @@
 # As there are many different tools and methods for getting alignments of reads, we will look at starting the process with two common input types. We will be using a
 # count table, like that we would have if we were loading from a text file and we will use an ExpressionSet(eset) object, which is an object type common in
-# Bioconductor. The prepared dataset will be the 'modencodefly' data from NHGRI encyclopedia of DNA elements project for the model organism, '_Drosophila melanogaster_'.
+# Bioconductor. The prepared dataset will be the 'modencodefly' data from NHGRI encyclopedia of DNA elements project for the model organism, 'Drosophila melanogaster'.
 # The dataset contains 147 different samples for 'D. melanogaster', a fruit fly with approximately 110 Mbp genome, annotated with about 15,000 gene features.
 
 # edgeR ==> edgeR is a widely used and powerful package that implements negative binomial models suitable for sparse count data such as RNA-seq data in a general linear
