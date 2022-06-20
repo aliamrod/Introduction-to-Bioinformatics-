@@ -8,7 +8,15 @@
 # normalization called "TMM", which is the weighted mean of log ratio between sample and control, after removal of genes with high counts and outlying log ratios.
 # The TMM value should be close to one, but can be used as a corretion factor to be applied to overall library sizes. 
   
-## Estimating differential expression with edgeR
+## Estimating differential expression with edgeR. For estimating differential expressions with edgeR from a count table (i.e. in a text file), we use the following
+# steps:
+
+## Dependencies.
+library(forcats)
+library(dplyr)
+library(ggplot2)
+library(magrittr)
+library(edgeR)
 
 ## Count table
 ## 1. Load cont data.
@@ -23,8 +31,25 @@ pheno_data <- readr::read_table2(file.path(getwd(), "datasets", "ch1", "modencod
   
 ## 2. Specify experiments of interest.
 experiments_of_interest <- c("L1Larvae", "L2Larvae")
-columns_of_interrest <- which(pheno_data[['stage'']] %in% experiments_of_interest)
+columns_of_interest <- which(pheno_data[['stage']]%in%experiments_of_interest)
 
-## 3. For the grouping factor.
-library(magrittr)
-grouping <- pheno_data[['stage']][columns_of_interest] %>%
+## 3. For the grouping factor. 
+grouping <- pheno_data[['stage']][columns_of_interest]%>%forcats::as_factor() # %>% is the 'infix operator' defined by magrittr and heavily used by dplyr. The function
+# passes left-hand side of the operator to the first argument of the right-hand side of the operator. 
+
+## 4. Form the subset of count data.
+counts_of_interest <- count_matrix[,columns_of_interest]
+
+## 5. Create the DGE object. 
+count_dge <- edgeR::DGEList(counts = counts_of_interest, group = grouping)
+# **DGEList() object holds the dataset to be analyzed by edgeR and the subsequent calculations performed on the dataset. 
+
+## 6. Perform differential analysis.
+design <- model.matrix(~grouping) # model.matrix() creates a design (or model), e.g., by expanding factors to a set of dummy variables (depending on the contrasts)
+# and expanding interactions similarily.
+eset_dge <- edgeR::estimateDisp(eset_dge, design) # estimateDisp() maximizes the negative binomial likelihood to give the estimate of the common, trended, and tagwise
+# dispersions across all tags.
+fit <- edgeR::glmQLFit(eset_dge, design)
+result<- edgeR::glmQLFTet(fit, coef=2)
+topTags(result)
+
