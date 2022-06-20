@@ -22,49 +22,9 @@ pheno_data <- readr::read_table2(file.path(getwd(), "datasets", "ch1", "modencod
 # read_table2--> read whitespace-seperated columns into a tibble; this function is deprecated because we renamed it to 'read_table()' and removed the old 'read_table' function, which was too strict for most cases and was analogous to just using 'read_fwf()'. 
   
 ## 2. Specify experiments of interest.
-
-
 experiments_of_interest <- c("L1Larvae", "L2Larvae")
-columns_of_interest <- which( pheno_data[['stage']] %in% experiments_of_interest ) #gives the numeric indices of the above experiments in the matrix
+columns_of_interrest <- which(pheno_data[['stage'']] %in% experiments_of_interest)
 
-### Form grouping factor
+## 3. For the grouping factor.
 library(magrittr)
-grouping <- pheno_data[['stage']][columns_of_interest] %>% 
-  forcats::as_factor()
-
-### Form subset count data
-counts_of_interest <-  count_matrix[,columns_of_interest]
-
-### Form DGE
-library(edgeR)
-count_dge <- edgeR::DGEList(counts = counts_of_interest, group = grouping)
-
-
-### Perform differential expression 
-design <- model.matrix(~ grouping)
-eset_dge <- edgeR::estimateDisp(count_dge, design)
-fit <- edgeR::glmQLFit(eset_dge, design)
-result <- edgeR::glmQLFTest(fit, coef=2)
-topTags(result)
-
-
-##eset
-load(file.path(getwd(), "datasets/ch1/modencodefly_eset.RData"))
-
-experiments_of_interest <- c("L1Larvae", "L2Larvae")
-columns_of_interest <- which( phenoData(modencodefly.eset)[['stage']] %in% experiments_of_interest )
-
-grouping <- droplevels(phenoData(modencodefly.eset)[['stage']][columns_of_interest] )
-
-counts_of_interest <- exprs(modencodefly.eset)[, columns_of_interest]
-
-eset_dge <- edgeR::DGEList(
-  counts = counts_of_interest,
-  group = grouping 
-  )
-
-design <- model.matrix(~ grouping)
-eset_dge <- edgeR::estimateDisp(eset_dge, design)
-fit <- edgeR::glmQLFit(eset_dge, design)
-result <- edgeR::glmQLFTest(fit, coef=2)
-topTags(result)
+grouping <- pheno_data[['stage']][columns_of_interest] %>%
